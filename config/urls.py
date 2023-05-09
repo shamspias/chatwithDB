@@ -19,7 +19,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Chatbot app URLs
-    # path('api/v1/chat/', include('chat_api.urls')),
+    path('api/v1/chat/', include('chat_api.urls')),
+
+    # Chatbot With news and Search API
+    path('api/v1/news/', include('chat_gpt_news_search_api.urls')),
+    path('api/v1/search/', include('chat_gpt_news_search_api.urls')),
+
 
     # Swagger URLs
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
