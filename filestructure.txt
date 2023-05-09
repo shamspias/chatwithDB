@@ -9,6 +9,7 @@ ycla_ai/
 │   │
 │   ├── __init__.py
 │   ├── asgi.py
+│   ├── celery.py         # Celery configuration
 │   ├── urls.py
 │   └── wsgi.py
 │
@@ -21,6 +22,7 @@ ycla_ai/
 │   ├── apps.py
 │   ├── models.py
 │   ├── serializers.py
+│   ├── tasks.py          # Celery tasks for chat_api
 │   ├── tests.py
 │   ├── urls.py
 │   └── views.py
@@ -34,6 +36,7 @@ ycla_ai/
 │   ├── apps.py
 │   ├── models.py
 │   ├── serializers.py
+│   ├── tasks.py          # Celery tasks for chat_gpt_news_search_api
 │   ├── tests.py
 │   ├── urls.py
 │   └── views.py
@@ -54,4 +57,5 @@ ycla_ai/
 ├── .env
 ├── .gitignore
 ├── manage.py
-└── requirements.txt
+├── requirements.txt
+└── worker.py              # Celery worker entry point
