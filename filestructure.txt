@@ -27,6 +27,7 @@ ycla_ai/
 │   ├── tasks.py          # Celery tasks for chat_api
 │   ├── tests.py
 │   ├── urls.py
+|   |── utils.py          # Utility functions for chat_api
 │   └── views.py
 │
 ├── chat_gpt_news_search_api/
