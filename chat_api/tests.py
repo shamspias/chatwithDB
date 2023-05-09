@@ -7,6 +7,9 @@ from chat_api.models import Conversation, Message
 
 
 class ChatAPITests(APITestCase):
+    """
+    Test cases for chat API
+    """
     def setUp(self):
         self.user = User.objects.create_user(
             username='testuser', password='testpassword'
