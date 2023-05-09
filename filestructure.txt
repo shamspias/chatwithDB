@@ -4,6 +4,8 @@ ycla_ai/
 │   ├── settings/
 │   │   ├── __init__.py
 │   │   ├── common.py
+│   │   ├── development.py
+|   |   |── key_values.py  # Environment variables
 │   │   ├── local.py
 │   │   └── production.py
 │   │
