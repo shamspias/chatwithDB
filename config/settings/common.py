@@ -24,7 +24,6 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'chat_api.apps.ChatApiConfig',
-    'chat_gpt_news_search_api.apps.ChatGptNewsSearchApiConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
