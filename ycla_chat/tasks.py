@@ -2,7 +2,7 @@ import openai
 from celery import shared_task
 from django.conf import settings
 
-from .models import Chat, CustomPrompt
+from .models import CustomPrompt
 
 # Get system prompt from site settings
 try:
@@ -18,7 +18,7 @@ openai.api_key = settings.OPENAI_API_KEY
 
 
 @shared_task
-def get_bot_response(user_id, message_list, message):
+def get_bot_response(message_list):
     gpt3_response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
@@ -27,8 +27,5 @@ def get_bot_response(user_id, message_list, message):
                  ] + message_list
     )
     bot_message = gpt3_response["choices"][0]["message"]["content"].strip()
-
-    chat = Chat(user_id=user_id, user_message=message, bot_message=bot_message)
-    chat.save()
 
     return bot_message
