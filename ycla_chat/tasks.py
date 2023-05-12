@@ -27,7 +27,7 @@ def get_bot_response(message_list, language):
         model="gpt-3.5-turbo",
         messages=[
                      {"role": "system",
-                      "content": f"{system_prompt} you always replay in {language}"},
+                      "content": f"{system_prompt} you always replay in {language} never replay other then {language} even if your previous conversation in other language still you will replay in {language}"},
                  ] + message_list
     )
 
