@@ -30,7 +30,7 @@ ycla_ai/
 |   |── utils.py          # Utility functions for chat_api
 │   └── views.py
 │
-├── chat_gpt_news_search_api/
+├── ycla_chat/
 │   ├── migrations/
 │   │   └── __init__.py
 │   │
@@ -39,7 +39,7 @@ ycla_ai/
 │   ├── apps.py
 │   ├── models.py
 │   ├── serializers.py
-│   ├── tasks.py          # Celery tasks for chat_gpt_news_search_api
+│   ├── tasks.py          # Celery tasks for ycla_chat
 │   ├── tests.py
 │   ├── urls.py
 │   └── views.py
@@ -51,11 +51,6 @@ ycla_ai/
 │   └── css/
 │       └── api_documentation.css
 │
-├── utils/
-│   ├── __init__.py
-│   ├── chat_gpt_integration.py
-│   ├── news_api_integration.py
-│   └── google_search_api_integration.py
 │
 ├── .env
 ├── .gitignore
