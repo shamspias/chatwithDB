@@ -23,7 +23,7 @@ def get_bot_response(message_list):
         model="gpt-3.5-turbo",
         messages=[
                      {"role": "system",
-                      "content": system_prompt + "you always replay in " + language},
+                      "content": system_prompt + "you always replay in {language}"},
                  ] + message_list
     )
     bot_message = gpt3_response["choices"][0]["message"]["content"].strip()
