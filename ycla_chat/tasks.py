@@ -8,17 +8,21 @@ from .models import CustomPrompt
 try:
     system_prompt_obj = CustomPrompt.objects.first()
     system_prompt = system_prompt_obj.prompt
-    language = system_prompt_obj.language
+    default_language = system_prompt_obj.language
 except Exception as e:
     system_prompt = "You are YCLA AI you can do anything you want."
-    language = "English"
+    default_language = "English"
     print("Error:" + str(e))
 
 openai.api_key = settings.OPENAI_API_KEY
 
 
 @shared_task
-def get_bot_response(message_list):
+def get_bot_response(message_list, language):
+    if language:
+        language = language
+    else:
+        language = default_language
     gpt3_response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
@@ -26,6 +30,7 @@ def get_bot_response(message_list):
                       "content": f"{system_prompt} you always replay in {language}"},
                  ] + message_list
     )
+
     bot_message = gpt3_response["choices"][0]["message"]["content"].strip()
 
     return bot_message
