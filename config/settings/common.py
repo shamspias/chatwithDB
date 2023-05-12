@@ -24,6 +24,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'chat_api.apps.ChatApiConfig',
+    'ycla_chat.apps.YclaChatConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
