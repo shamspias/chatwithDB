@@ -16,7 +16,7 @@ class Chat(models.Model):
 
 class CustomPrompt(models.Model):
     prompt = models.TextField(null=True, blank=True)
-    language = models.TextField(default="English")
+    language = models.CharField(default="English", max_length=50)
 
     class Meta:
         verbose_name_plural = "Custom Prompts"
