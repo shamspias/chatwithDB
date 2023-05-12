@@ -2,9 +2,6 @@ from django.db import models
 
 
 class Chat(models.Model):
-    """
-
-    """
     user_id = models.CharField(max_length=255)
     user_message = models.TextField()
     bot_message = models.TextField(blank=True)
@@ -18,9 +15,6 @@ class Chat(models.Model):
 
 
 class CustomPrompt(models.Model):
-    """
-
-    """
     prompt = models.TextField(null=True, blank=True)
     language = models.TextField(default="English")
 
