@@ -26,9 +26,10 @@ class ChatView(APIView):
                 message_list.append({"role": "assistant", "content": chat.bot_message})
 
             # Start the get_bot_response task
-            bot_message = get_bot_response.delay(user_id, message_list, user_message)
+            task = get_bot_response.apply_async(args=[user_id, message_list, user_message])
+            bot_message = task.get()
 
-            return Response({'message': 'Chat is being processed'}, status=status.HTTP_202_ACCEPTED)
+            return Response({'message': bot_message}, status=status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, user_id):
