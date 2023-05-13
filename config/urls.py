@@ -22,7 +22,7 @@ urlpatterns = [
     path('api/v1/chat/', include('chat_api.urls')),
 
     # Chatbot for ycla
-    path('api/v1/ycla/chat/', include('ycla_chat.urls')),
+    path('api/v1/ycla/', include('ycla_chat.urls')),
 
     # Swagger URLs
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
