@@ -16,13 +16,12 @@ class Chat(models.Model):
 
 class CustomPrompt(models.Model):
     prompt = models.TextField(null=True, blank=True)
-    language = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "Custom Prompts"
 
     def __str__(self):
-        if self.language:
-            return self.language
+        if self.prompt:
+            return self.prompt[:50]
         else:
             return "Custom Prompt"
