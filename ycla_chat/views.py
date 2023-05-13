@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .models import Chat
+from .models import Chat, CustomPrompt
 from .serializers import ChatSerializer
 from .tasks import get_bot_response
 
@@ -26,8 +26,16 @@ class ChatView(APIView):
                 message_list.append({"role": "user", "content": chat.user_message})
                 message_list.append({"role": "assistant", "content": chat.bot_message})
 
+            # Get system prompt from site settings
+            try:
+                system_prompt_obj = CustomPrompt.objects.first()
+                system_prompt = system_prompt_obj.prompt
+            except Exception as e:
+                system_prompt = "You are YCLA AI you can do anything you want."
+                print("Error:" + str(e))
+
             # Start the get_bot_response task
-            task = get_bot_response.apply_async(args=[message_list, language])
+            task = get_bot_response.apply_async(args=[message_list, system_prompt, language])
             bot_message = task.get()
 
             chat = Chat(user_id=user_id, user_message=user_message, bot_message=bot_message)
