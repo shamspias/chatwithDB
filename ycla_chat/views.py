@@ -43,8 +43,3 @@ class ChatView(APIView):
 
             return Response({'message': bot_message}, status=status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request, user_id):
-        chats = Chat.objects.filter(user_id=user_id).order_by('-timestamp')
-        serializer = ChatSerializer(chats, many=True)
-        return Response(serializer.data)
