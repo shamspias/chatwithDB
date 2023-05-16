@@ -7,7 +7,9 @@ openai.api_key = settings.OPENAI_API_KEY
 
 @shared_task
 def get_bot_response(message_list, system_prompt, language):
+    print("_____________) SYSTEM PROMPT (__________________")
     print(system_prompt)
+    print("_____________) END SYSTEM PROMPT (__________________")
     print(language)
     gpt3_response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
