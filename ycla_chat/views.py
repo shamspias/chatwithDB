@@ -27,7 +27,9 @@ class ChatView(APIView):
                 message_list.append({"role": "user", "content": chat.user_message})
                 if chat.bot_message:  # Make sure the bot message exists before adding it.
                     message_list.append({"role": "assistant", "content": chat.bot_message})
+            message_list.append({"role": "user", "content": user_message})
             message_list = message_list[::-1]  # Reverse the order to maintain the chronological order
+
             print(message_list)
 
             # Get system prompt from site settings
