@@ -45,5 +45,5 @@ class ChatView(APIView):
             chat = Chat(user_id=user_id, user_message=user_message, bot_message=bot_message)
             chat.save()
 
-            return Response({'message': bot_message}, status=status.HTTP_202_ACCEPTED)
+            return Response({'message': bot_message}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
