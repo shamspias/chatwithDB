@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from .permissions import HasValidApiKey
 from .models import Chat, CustomPrompt
 from .serializers import ChatSerializer
 from .tasks import get_bot_response
@@ -11,6 +12,7 @@ class ChatView(APIView):
     """
     API View for Chat
     """
+    permission_classes = [HasValidApiKey]
 
     def post(self, request):
         serializer = ChatSerializer(data=request.data)
