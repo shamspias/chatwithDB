@@ -1,4 +1,16 @@
+import uuid
 from django.db import models
+
+
+class ApiKey(models.Model):
+    username = models.CharField(max_length=255)
+    key = models.CharField(max_length=255, unique=True, editable=False)
+
+    def save(self, *args, **kwargs):
+        if not self.key:
+            # Generate a UUID if this is a new instance.
+            self.key = str(uuid.uuid4())
+        return super().save(*args, **kwargs)
 
 
 class Chat(models.Model):
