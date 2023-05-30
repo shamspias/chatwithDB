@@ -21,8 +21,8 @@ class ChatView(APIView):
             user_message = serializer.validated_data['user_message']
             language = request.data.get('language', "English")
 
-            # Get the last 10 conversations
-            last_chats = Chat.objects.filter(user_id=user_id).order_by('-timestamp')[:10]
+            # Get the last 5 conversations
+            last_chats = Chat.objects.filter(user_id=user_id).order_by('-timestamp')[:5]
 
             message_list = []
             for chat in last_chats:
