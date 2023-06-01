@@ -1,4 +1,4 @@
-# YCLA AI
+# YCLA DOCUMENT AI
 YCLA AI is an innovative Django-based application that aims to enhance user experience in the realm of AI-powered communication and information retrieval. It provides a powerful chatting API and a versatile service that leverages ChatGPT along with News and Google Search APIs. By combining these state-of-the-art technologies, YCLA AI enables developers and businesses to create a wide range of intelligent applications and services.
 
 

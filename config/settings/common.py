@@ -23,7 +23,6 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    'chat_api.apps.ChatApiConfig',
     'ycla_chat.apps.YclaChatConfig',
 ]
 

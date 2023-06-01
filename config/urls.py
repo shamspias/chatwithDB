@@ -18,9 +18,6 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # Chatbot app URLs
-    path('api/v1/chat/', include('chat_api.urls')),
-
     # Chatbot for ycla
     path('api/v1/ycla/', include('ycla_chat.urls')),
 
