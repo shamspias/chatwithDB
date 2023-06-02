@@ -1,10 +1,45 @@
 import openai
 from celery import shared_task
+from celery.utils.log import get_task_logger
 from django.conf import settings
+from .pinecone_healper import (
+    PineconeManager,
+    PineconeIndexManager,
+
+)
+
+from langchain.vectorstores import Pinecone
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.chat_models import ChatOpenAI
 
 openai.api_key = settings.OPENAI_API_KEY
 
 model_name = settings.OPENAI_AI_MODEL
+
+PINECONE_API_KEY = settings.PINECONE_API_KEY
+PINECONE_ENVIRONMENT = settings.PINECONE_ENVIRONMENT
+PINECONE_INDEX_NAME = settings.PINECONE_INDEX_NAME
+OPENAI_API_KEY = settings.OPENAI_API_KEY
+
+logger = get_task_logger(__name__)
+
+embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
+
+
+def get_pinecone_index(index_name, name_space):
+    pinecone_manager = PineconeManager(PINECONE_API_KEY, PINECONE_ENVIRONMENT)
+    pinecone_index_manager = PineconeIndexManager(pinecone_manager, index_name)
+
+    try:
+        pinecone_index = Pinecone.from_existing_index(index_name=pinecone_index_manager.index_name,
+                                                      embedding=embeddings, namespace=settings.PINECONE_NAMESPACE_NAME)
+        # pinecone_index = Pinecone.from_existing_index(index_name=pinecone_index_manager.index_name,
+        #                                               namespace=name_space, embedding=embeddings)
+        return pinecone_index
+
+    except Exception as e:
+        logger.error(f"Failed to load Pinecone index: {e}")
+        return None
 
 
 @shared_task
