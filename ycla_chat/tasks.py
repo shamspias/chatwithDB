@@ -74,7 +74,7 @@ def get_bot_response(message_list, system_prompt, language, name_space):
         stream=True,
         messages=[
                      {"role": "system",
-                      "content": f"{system_prompt} you always replay in {language} never replay other then {language} even if your previous conversation in other language still you will replay in {language}"},
+                      "content": f"{system_prompt} {language} only"},
                  ] + message_list
     )
 
