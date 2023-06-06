@@ -41,8 +41,11 @@ class ChatView(APIView):
                 system_prompt = "You are YCLA AI you can do anything you want."
                 print("Error:" + str(e))
 
+            # todo will make the name_space dynamic later
+            name_space = "ycla"
+
             # Start the get_bot_response task
-            task = get_bot_response.apply_async(args=[message_list, system_prompt, language])
+            task = get_bot_response.apply_async(args=[message_list, system_prompt, language, name_space])
             bot_message = task.get()
 
             chat = Chat(user_id=user_id, user_message=user_message, bot_message=bot_message)
