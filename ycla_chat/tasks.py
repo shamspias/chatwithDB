@@ -74,7 +74,7 @@ def get_bot_response(message_list, system_prompt, language, name_space):
         stream=True,
         messages=[
                      {"role": "system",
-                      "content": f"{system_prompt} {language} only"},
+                      "content": f"{system_prompt} {language} only."},
                  ] + message_list
     )
 
