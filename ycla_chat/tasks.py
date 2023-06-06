@@ -43,7 +43,32 @@ def get_pinecone_index(index_name, name_space):
 
 
 @shared_task
-def get_bot_response(message_list, system_prompt, language):
+def get_bot_response(message_list, system_prompt, language, name_space):
+    # Load the Pinecone index
+    base_index = get_pinecone_index(PINECONE_INDEX_NAME, name_space)
+
+    if base_index:
+        # Add extra text to the content of the last message
+        last_message = message_list[-1]
+
+        # Get the most similar documents to the last message
+        try:
+            docs = base_index.similarity_search(query=last_message["content"], k=2)
+
+            updated_content = last_message["content"] + "\n\n"
+            for doc in docs:
+                updated_content += doc.page_content + "\n\n"
+        except Exception as e:
+            logger.error(f"Failed to get similar documents: {e}")
+            updated_content = last_message.content
+
+        # Create a new HumanMessage object with the updated content
+        # updated_message = HumanMessage(content=updated_content)
+        updated_message = {"role": "user", "content": updated_content}
+
+        # Replace the last message in message_list with the updated message
+        message_list[-1] = updated_message
+
     gpt3_stream_response = openai.ChatCompletion.create(
         model=model_name,
         stream=True,
