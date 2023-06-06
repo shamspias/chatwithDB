@@ -53,7 +53,7 @@ def get_bot_response(message_list, system_prompt, language, name_space):
 
         # Get the most similar documents to the last message
         try:
-            docs = base_index.similarity_search(query=last_message["content"], k=3)
+            docs = base_index.similarity_search(query=last_message["content"], k=2)
 
             updated_content = last_message["content"] + "\n\n"
             for doc in docs:
