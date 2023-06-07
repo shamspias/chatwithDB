@@ -37,7 +37,7 @@ class ChatView(APIView):
             try:
                 system_prompt_obj = CustomPrompt.objects.first()
                 system_prompt = system_prompt_obj.prompt
-                name_space = "ycla"
+                name_space = system_prompt_obj.name_space
             except Exception as e:
                 system_prompt = "You are YCLA AI you can do anything you want."
                 name_space = "ycla"
