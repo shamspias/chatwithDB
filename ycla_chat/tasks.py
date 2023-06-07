@@ -12,8 +12,6 @@ from langchain.vectorstores import Pinecone
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.chat_models import ChatOpenAI
 
-openai.api_key = settings.OPENAI_API_KEY
-
 model_name = settings.OPENAI_AI_MODEL
 
 PINECONE_API_KEY = settings.PINECONE_API_KEY
@@ -32,7 +30,7 @@ def get_pinecone_index(index_name, name_space):
 
     try:
         pinecone_index = Pinecone.from_existing_index(index_name=pinecone_index_manager.index_name,
-                                                      embedding=embeddings, namespace=settings.PINECONE_NAMESPACE_NAME)
+                                                      embedding=embeddings, namespace=name_space)
         # pinecone_index = Pinecone.from_existing_index(index_name=pinecone_index_manager.index_name,
         #                                               namespace=name_space, embedding=embeddings)
         return pinecone_index
@@ -43,7 +41,8 @@ def get_pinecone_index(index_name, name_space):
 
 
 @shared_task
-def get_bot_response(message_list, system_prompt, language, name_space):
+def get_bot_response(message_list, system_prompt, language, name_space, model_from, api_key, model_endpoint,
+                     model_api_version):
     # Load the Pinecone index
     base_index = get_pinecone_index(PINECONE_INDEX_NAME, name_space)
 
@@ -69,14 +68,29 @@ def get_bot_response(message_list, system_prompt, language, name_space):
         # Replace the last message in message_list with the updated message
         message_list[-1] = updated_message
 
-    gpt3_stream_response = openai.ChatCompletion.create(
-        model=model_name,
-        stream=True,
-        messages=[
-                     {"role": "system",
-                      "content": f"{system_prompt} {language} only."},
-                 ] + message_list
-    )
+    if model_from == "azure":
+        openai.api_type = model_from
+        openai.api_base = model_endpoint
+        openai.api_version = model_api_version
+        openai.api_key = api_key
+        gpt3_stream_response = openai.ChatCompletion.create(
+            engine=model_name,
+            stream=True,
+            messages=[
+                         {"role": "system",
+                          "content": f"{system_prompt} {language} only."},
+                     ] + message_list
+        )
+    else:
+        openai.api_key = settings.OPENAI_API_KEY
+        gpt3_stream_response = openai.ChatCompletion.create(
+            model=model_name,
+            stream=True,
+            messages=[
+                         {"role": "system",
+                          "content": f"{system_prompt} {language} only."},
+                     ] + message_list
+        )
 
     response_text = ""
 
