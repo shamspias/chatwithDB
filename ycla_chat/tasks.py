@@ -10,9 +10,6 @@ from .pinecone_healper import (
 
 from langchain.vectorstores import Pinecone
 from langchain.embeddings import OpenAIEmbeddings
-from langchain.chat_models import ChatOpenAI
-
-model_name = settings.OPENAI_AI_MODEL
 
 PINECONE_API_KEY = settings.PINECONE_API_KEY
 PINECONE_ENVIRONMENT = settings.PINECONE_ENVIRONMENT
@@ -41,7 +38,7 @@ def get_pinecone_index(index_name, name_space):
 
 
 @shared_task
-def get_bot_response(message_list, system_prompt, language, name_space, model_from, api_key, model_endpoint,
+def get_bot_response(message_list, system_prompt, language, name_space, model_from, model_name, api_key, model_endpoint,
                      model_api_version):
     # Load the Pinecone index
     base_index = get_pinecone_index(PINECONE_INDEX_NAME, name_space)
@@ -84,7 +81,7 @@ def get_bot_response(message_list, system_prompt, language, name_space, model_fr
     else:
         openai.api_key = settings.OPENAI_API_KEY
         gpt3_stream_response = openai.ChatCompletion.create(
-            model=model_name,
+            model="gpt-3.5-turbo",
             stream=True,
             messages=[
                          {"role": "system",
