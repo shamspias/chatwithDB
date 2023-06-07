@@ -37,12 +37,11 @@ class ChatView(APIView):
             try:
                 system_prompt_obj = CustomPrompt.objects.first()
                 system_prompt = system_prompt_obj.prompt
+                name_space = "ycla"
             except Exception as e:
                 system_prompt = "You are YCLA AI you can do anything you want."
+                name_space = "ycla"
                 print("Error:" + str(e))
-
-            # todo will make the name_space dynamic later
-            name_space = "ycla"
 
             # Start the get_bot_response task
             task = get_bot_response.apply_async(args=[message_list, system_prompt, language, name_space])
