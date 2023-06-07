@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .permissions import HasValidApiKey
-from .models import Chat, CustomPrompt
+from .models import Chat, CustomPrompt, ModelInfo
 from .serializers import ChatSerializer
 from .tasks import get_bot_response
 
@@ -43,9 +43,31 @@ class ChatView(APIView):
                 name_space = "ycla"
                 print("Error:" + str(e))
 
-            # Start the get_bot_response task
-            task = get_bot_response.apply_async(args=[message_list, system_prompt, language, name_space])
-            bot_message = task.get()
+            try:
+                ai_model_obj = ModelInfo.objects.first()
+                model_from = ai_model_obj.model_from
+                api_key = ai_model_obj.api_key
+                model_name = ai_model_obj.model_name
+                model_endpoint = ai_model_obj.model_endpoint
+                model_api_version = ai_model_obj.model_api_version
+
+                if model_from == "openai":
+                    task = get_bot_response.apply_async(
+                        args=[message_list, system_prompt, language, name_space, model_from, api_key])
+                    bot_message = task.get()
+                else:
+                    task = get_bot_response.apply_async(
+                        args=[message_list, system_prompt, language, name_space, api_key, model_name, model_endpoint,
+                              model_api_version])
+                    bot_message = task.get()
+
+            except Exception as e:
+                print(str(e))
+                model_from = "openai"
+                # Start the get_bot_response task
+                task = get_bot_response.apply_async(
+                    args=[message_list, system_prompt, language, name_space, model_from])
+                bot_message = task.get()
 
             chat = Chat(user_id=user_id, user_message=user_message, bot_message=bot_message)
             chat.save()
