@@ -58,8 +58,7 @@ class ChatView(APIView):
                 else:
                     task = get_bot_response.apply_async(
                         args=[message_list, system_prompt, language, name_space, model_from, model_name, api_key,
-                              model_endpoint,
-                              model_api_version])
+                              model_endpoint, model_api_version])
                     bot_message = task.get()
 
             except Exception as e:

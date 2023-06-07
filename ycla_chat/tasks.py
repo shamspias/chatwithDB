@@ -70,6 +70,7 @@ def get_bot_response(message_list, system_prompt, language, name_space, model_fr
         openai.api_base = model_endpoint
         openai.api_version = model_api_version
         openai.api_key = api_key
+
         gpt3_stream_response = openai.ChatCompletion.create(
             engine=model_name,
             stream=True,
