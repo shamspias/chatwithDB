@@ -28,6 +28,7 @@ class Chat(models.Model):
 
 class CustomPrompt(models.Model):
     prompt = models.TextField(null=True, blank=True)
+    name_space = models.CharField(max_length=100, null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Custom Prompts"
