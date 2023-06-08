@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Chat, CustomPrompt, ApiKey, ModelInfo
+from .models import Chat, SystemInfo, ApiKey, ModelInfo
 
 
 class ChatAdmin(admin.ModelAdmin):
@@ -14,5 +14,5 @@ class ApiKeyAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Chat, ChatAdmin)
-admin.site.register(CustomPrompt)
+admin.site.register(SystemInfo)
 admin.site.register(ModelInfo)
