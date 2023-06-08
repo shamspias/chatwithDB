@@ -28,11 +28,10 @@ class Chat(models.Model):
 
 class SystemInfo(models.Model):
     prompt = models.TextField(null=True, blank=True)
-    name_space = models.CharField(max_length=100, null=True, blank=True)
     history = models.IntegerField(default=3)
 
     class Meta:
-        verbose_name_plural = "SystemInfo"
+        verbose_name_plural = "System Info"
 
     def __str__(self):
         if self.prompt:
@@ -53,3 +52,14 @@ class ModelInfo(models.Model):
             return self.model_name[:50]
         else:
             return "Custom Model"
+
+
+class VectorStorage(models.Model):
+    provider_name = models.CharField(max_length=100, null=True, blank=True)
+    api_key = models.CharField(max_length=255, null=True, blank=True)
+    environment_name = models.CharField(max_length=255, null=True, blank=True)
+    index_name = models.CharField(max_length=255, null=True, blank=True)
+    name_space = models.CharField(max_length=100, null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = "Vector Storage"
