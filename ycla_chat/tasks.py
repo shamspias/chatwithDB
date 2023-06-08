@@ -38,11 +38,12 @@ def get_pinecone_index(index_name, name_space, embeddings):
 @shared_task
 def get_bot_response(message_list, system_prompt, language, name_space, model_from, model_name, api_key, model_endpoint,
                      model_api_version):
-    if model_from == "azure":
-        embeddings = OpenAIEmbeddings(openai_api_type=model_from, openai_api_base=model_endpoint,
-                                      openai_api_key=api_key, openai_api_version=model_api_version)
-    else:
-        embeddings = OpenAIEmbeddings(openai_api_key=api_key)
+    # if model_from == "azure":
+    #     embeddings = OpenAIEmbeddings(openai_api_type=model_from, openai_api_base=model_endpoint,
+    #                                   openai_api_key=api_key, openai_api_version=model_api_version)
+    # else:
+    #     embeddings = OpenAIEmbeddings(openai_api_key=api_key)
+    embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
     # Load the Pinecone index
     base_index = get_pinecone_index(PINECONE_INDEX_NAME, name_space, embeddings)
 
