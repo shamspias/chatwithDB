@@ -47,11 +47,13 @@ def get_bot_response(message_list, system_prompt, language, name_space, model_fr
         # Add extra text to the content of the last message
         last_message = message_list[-1]
 
+        query_text = last_message["content"]
+
         # Get the most similar documents to the last message
         try:
-            docs = base_index.similarity_search(query=last_message["content"], k=2)
+            docs = base_index.similarity_search(query=query_text, k=2)
 
-            updated_content = last_message["content"] + "\n\n"
+            updated_content = query_text + "\n\nreference:\n"
             for doc in docs:
                 updated_content += doc.page_content + "\n\n"
         except Exception as e:
