@@ -26,9 +26,10 @@ class Chat(models.Model):
         ordering = ['timestamp']
 
 
-class CustomPrompt(models.Model):
+class SystemInfo(models.Model):
     prompt = models.TextField(null=True, blank=True)
     name_space = models.CharField(max_length=100, null=True, blank=True)
+    history = models.IntegerField(default=3)
 
     class Meta:
         verbose_name_plural = "Custom Prompts"
