@@ -46,7 +46,7 @@ def get_bot_response(message_list, system_prompt, language, name_space, model_fr
 
     embeddings = OpenAIEmbeddings(openai_api_type="open_ai", openai_api_base="https://api.openai.com/v1",
                                   openai_api_key=OPENAI_API_KEY,
-                                  openai_api_version="2023-05-15", )
+                                  openai_api_version=None, )
     # Load the Pinecone index
     base_index = get_pinecone_index(PINECONE_INDEX_NAME, name_space, embeddings)
 
