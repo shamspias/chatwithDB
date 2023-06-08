@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .permissions import HasValidApiKey
-from .models import Chat, CustomPrompt, ModelInfo
+from .models import Chat, SystemInfo, ModelInfo
 from .serializers import ChatSerializer
 from .tasks import get_bot_response
 
@@ -21,8 +21,20 @@ class ChatView(APIView):
             user_message = serializer.validated_data['user_message']
             language = request.data.get('language', "English")
 
-            # Get the last 5 conversations
-            last_chats = Chat.objects.filter(user_id=user_id).order_by('-timestamp')[:5]
+            # Get system prompt from site settings
+            try:
+                system_prompt_obj = SystemInfo.objects.first()
+                system_prompt = system_prompt_obj.prompt
+                history = system_prompt_obj.history
+                name_space = system_prompt_obj.name_space
+            except Exception as e:
+                system_prompt = "You are YCLA AI you can do anything you want."
+                name_space = "ycla"
+                history = 3
+                print("Error:" + str(e))
+
+            # Get the last given conversations
+            last_chats = Chat.objects.filter(user_id=user_id).order_by('-timestamp')[:history]
 
             message_list = []
             for chat in last_chats:
@@ -32,16 +44,6 @@ class ChatView(APIView):
             message_list.append({"role": "user", "content": user_message})
 
             print(message_list)
-
-            # Get system prompt from site settings
-            try:
-                system_prompt_obj = CustomPrompt.objects.first()
-                system_prompt = system_prompt_obj.prompt
-                name_space = system_prompt_obj.name_space
-            except Exception as e:
-                system_prompt = "You are YCLA AI you can do anything you want."
-                name_space = "ycla"
-                print("Error:" + str(e))
 
             try:
                 ai_model_obj = ModelInfo.objects.first()
