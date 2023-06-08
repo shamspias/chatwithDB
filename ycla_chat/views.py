@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .permissions import HasValidApiKey
-from .models import Chat, SystemInfo, ModelInfo
+from .models import Chat, SystemInfo, ModelInfo, VectorStorage
 from .serializers import ChatSerializer
 from .tasks import get_bot_response
 
@@ -26,10 +26,8 @@ class ChatView(APIView):
                 system_prompt_obj = SystemInfo.objects.first()
                 system_prompt = system_prompt_obj.prompt
                 history = system_prompt_obj.history
-                name_space = system_prompt_obj.name_space
             except Exception as e:
                 system_prompt = "You are YCLA AI you can do anything you want."
-                name_space = "ycla"
                 history = 3
                 print("Error:" + str(e))
 
@@ -44,6 +42,18 @@ class ChatView(APIView):
             message_list.append({"role": "user", "content": user_message})
 
             print(message_list)
+
+            try:
+                vector_storage_obj = VectorStorage.objects.first()
+                provider_name = vector_storage_obj.provider_name
+                vector_api_key = vector_storage_obj.api_key
+                environment_name = vector_storage_obj.environment_name
+                vector_index_name = vector_storage_obj.index_name
+                name_space = vector_storage_obj.name_space
+
+            except Exception as e:
+                name_space = "ycla"
+                print(str(e))
 
             try:
                 ai_model_obj = ModelInfo.objects.first()
