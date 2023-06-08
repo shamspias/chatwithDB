@@ -58,7 +58,7 @@ def get_bot_response(message_list, system_prompt, language, name_space, model_fr
                 updated_content += doc.page_content + "\n\n"
         except Exception as e:
             logger.error(f"Failed to get similar documents: {e}")
-            updated_content = last_message.content
+            updated_content = query_text
 
         # Create a new HumanMessage object with the updated content
         # updated_message = HumanMessage(content=updated_content)
