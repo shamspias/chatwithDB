@@ -40,7 +40,7 @@ def get_bot_response(message_list, system_prompt, language, name_space, model_fr
                      model_api_version):
     # if model_from == "azure":
     #     embeddings = OpenAIEmbeddings(openai_api_type=model_from, openai_api_base=model_endpoint,
-    #                                   openai_api_key=api_key, openai_api_version=model_api_version)
+    #                                   openai_api_key=api_key, openai_api_version=model_api_version, deployment="")
     # else:
     #     embeddings = OpenAIEmbeddings(openai_api_key=api_key)
     embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
