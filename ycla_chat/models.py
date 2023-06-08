@@ -32,7 +32,7 @@ class SystemInfo(models.Model):
     history = models.IntegerField(default=3)
 
     class Meta:
-        verbose_name_plural = "Custom Prompts"
+        verbose_name_plural = "SystemInfo"
 
     def __str__(self):
         if self.prompt:
