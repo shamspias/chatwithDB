@@ -42,7 +42,9 @@ def get_bot_response(message_list, system_prompt, language, name_space, model_fr
     #     embeddings = OpenAIEmbeddings(openai_api_type=model_from, openai_api_base=model_endpoint,
     #                                   openai_api_key=api_key, openai_api_version=model_api_version, deployment="")
     # else:
-    #     embeddings = OpenAIEmbeddings(openai_api_key=api_key)
+    #     embeddings = OpenAIEmbeddings(openai_api_type="open_ai", openai_api_base="https://api.openai.com/v1",
+    #                                   openai_api_key=OPENAI_API_KEY,
+    #                                   openai_api_version=None, )
 
     embeddings = OpenAIEmbeddings(openai_api_type="open_ai", openai_api_base="https://api.openai.com/v1",
                                   openai_api_key=OPENAI_API_KEY,
