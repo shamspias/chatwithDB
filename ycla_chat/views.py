@@ -71,12 +71,13 @@ class ChatView(APIView):
 
                 if model_from == "openai":
                     task = get_bot_response.apply_async(
-                        args=[message_list, system_prompt, language, name_space, model_from, "", "", "", ""])
+                        args=[message_list, system_prompt, language, name_space, model_from, "", "", "", "",
+                              vector_api_key, environment_name, vector_index_name])
                     bot_message = task.get()
                 else:
                     task = get_bot_response.apply_async(
                         args=[message_list, system_prompt, language, name_space, model_from, model_name, api_key,
-                              model_endpoint, model_api_version])
+                              model_endpoint, model_api_version, vector_api_key, environment_name, vector_index_name])
                     bot_message = task.get()
 
             except Exception as e:

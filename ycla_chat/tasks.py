@@ -11,16 +11,13 @@ from .pinecone_healper import (
 from langchain.vectorstores import Pinecone
 from langchain.embeddings import OpenAIEmbeddings
 
-PINECONE_API_KEY = settings.PINECONE_API_KEY
-PINECONE_ENVIRONMENT = settings.PINECONE_ENVIRONMENT
-PINECONE_INDEX_NAME = settings.PINECONE_INDEX_NAME
 OPENAI_API_KEY = settings.OPENAI_API_KEY
 
 logger = get_task_logger(__name__)
 
 
-def get_pinecone_index(index_name, name_space, embeddings):
-    pinecone_manager = PineconeManager(PINECONE_API_KEY, PINECONE_ENVIRONMENT)
+def get_pinecone_index(index_name, name_space, embeddings, vector_api_key, environment_name):
+    pinecone_manager = PineconeManager(vector_api_key, environment_name)
     pinecone_index_manager = PineconeIndexManager(pinecone_manager, index_name)
 
     try:
@@ -37,7 +34,7 @@ def get_pinecone_index(index_name, name_space, embeddings):
 
 @shared_task
 def get_bot_response(message_list, system_prompt, language, name_space, model_from, model_name, api_key, model_endpoint,
-                     model_api_version):
+                     model_api_version, vector_api_key, environment_name, vector_index_name):
     # if model_from == "azure":
     #     embeddings = OpenAIEmbeddings(openai_api_type=model_from, openai_api_base=model_endpoint,
     #                                   openai_api_key=api_key, openai_api_version=model_api_version, deployment="")
@@ -50,7 +47,7 @@ def get_bot_response(message_list, system_prompt, language, name_space, model_fr
                                   openai_api_key=OPENAI_API_KEY,
                                   openai_api_version=None, )
     # Load the Pinecone index
-    base_index = get_pinecone_index(PINECONE_INDEX_NAME, name_space, embeddings)
+    base_index = get_pinecone_index(vector_index_name, name_space, embeddings, vector_api_key, environment_name)
 
     if base_index:
         # Add extra text to the content of the last message
