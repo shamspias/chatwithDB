@@ -2,6 +2,8 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from django.conf import settings
+
 from .permissions import HasValidApiKey
 from .models import Chat, SystemInfo, ModelInfo, VectorStorage
 from .serializers import ChatSerializer
@@ -52,7 +54,11 @@ class ChatView(APIView):
                 name_space = vector_storage_obj.name_space
 
             except Exception as e:
-                name_space = "ycla"
+                provider_name = "Pinecone"
+                vector_api_key = settings.PINECONE_API_KEY
+                environment_name = settings.PINECONE_ENVIRONMENT
+                vector_index_name = settings.PINECONE_INDEX_NAME
+                name_space = settings.PINECONE_NAMESPACE_NAME
                 print(str(e))
 
             try:
