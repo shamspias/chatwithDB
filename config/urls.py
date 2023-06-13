@@ -7,9 +7,9 @@ from django.conf import settings
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="YCLA AI API",
-        default_version='v1',
-        description="API documentation for YCLA AI",
+        title=settings.API_TITLE,
+        default_version=settings.API_DESCRIPTION,
+        description=settings.API_DEFAULT_VERSION,
     ),
     public=True,
     permission_classes=[permissions.AllowAny, ],
