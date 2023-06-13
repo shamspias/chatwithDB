@@ -8,8 +8,8 @@ from django.conf import settings
 schema_view = get_schema_view(
     openapi.Info(
         title=settings.API_TITLE,
-        default_version=settings.API_DESCRIPTION,
-        description=settings.API_DEFAULT_VERSION,
+        default_version=settings.API_DEFAULT_VERSION,
+        description=settings.API_DESCRIPTION,
     ),
     public=True,
     permission_classes=[permissions.AllowAny, ],
