@@ -53,11 +53,27 @@ class PineconeManager:
         pinecone.delete_index(index_name)
 
 
-class URLHandler:
+class PineconeIndexManager:
     """
-    This class is used to handle the URLs
+    This class is used to manage the Pinecone Indexes
     """
 
+    def __init__(self, pinecone_manager, index_name):
+        self.pinecone_manager = pinecone_manager
+        self.index_name = index_name
+
+    def index_exists(self):
+        active_indexes = self.pinecone_manager.list_of_indexes()
+        return self.index_name in active_indexes
+
+    def create_index(self, dimension, metric):
+        self.pinecone_manager.create_index(self.index_name, dimension, metric)
+
+    def delete_index(self):
+        self.pinecone_manager.delete_index(self.index_name)
+
+
+class URLHandler:
     @staticmethod
     def is_valid_url(url):
         parsed_url = urlsplit(url)
@@ -90,10 +106,6 @@ class URLHandler:
 
 
 class DocumentLoaderFactory:
-    """
-    This class is used to load the documents
-    """
-
     @staticmethod
     def get_loader(file_path_or_url):
         if file_path_or_url.startswith("http://") or file_path_or_url.startswith("https://"):
@@ -111,26 +123,6 @@ class DocumentLoaderFactory:
                 return UnstructuredWordDocumentLoader(file_path_or_url)
             else:
                 raise ValueError(f"Unsupported file type: {mime_type}")
-
-
-class PineconeIndexManager:
-    """
-    This class is used to manage the Pinecone Indexes
-    """
-
-    def __init__(self, pinecone_manager, index_name):
-        self.pinecone_manager = pinecone_manager
-        self.index_name = index_name
-
-    def index_exists(self):
-        active_indexes = self.pinecone_manager.list_of_indexes()
-        return self.index_name in active_indexes
-
-    def create_index(self, dimension, metric):
-        self.pinecone_manager.create_index(self.index_name, dimension, metric)
-
-    def delete_index(self):
-        self.pinecone_manager.delete_index(self.index_name)
 
 
 def build_or_update_pinecone_index(file_path, index_name, name_space):
