@@ -63,3 +63,9 @@ class VectorStorage(models.Model):
 
     class Meta:
         verbose_name_plural = "Vector Storage"
+
+    def __str__(self):
+        if self.provider_name:
+            return self.provider_name
+        else:
+            return "Custom Vector DB"
