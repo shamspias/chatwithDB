@@ -19,5 +19,11 @@ ADMIN_SITE_HEADER = os.getenv('ADMIN_SITE_HEADER')
 ADMIN_SITE_TITLE = os.getenv('ADMIN_SITE_TITLE')
 ADMIN_SITE_INDEX = os.getenv('ADMIN_SITE_INDEX')
 
+# API Panel
+
+API_TITLE = os.getenv('API_TITLE', "Title")
+API_DESCRIPTION = os.getenv('API_DESCRIPTION', "Documentation")
+API_DEFAULT_VERSION = os.getenv('API_DEFAULT_VERSION', "v1")
+
 # OAuth2 settings
 APPLICATION_NAME = os.getenv('APPLICATION_NAME', 'chatbot')
