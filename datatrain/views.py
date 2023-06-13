@@ -50,5 +50,5 @@ class TrainView(View):
 
         # Redirect to Django admin with a success message
         messages.success(request, "Training complete.")
-        admin_url = reverse('admin:training_model_document_change', args=[object_id])
+        admin_url = reverse('admin:datatrain_document_change', args=[object_id])
         return HttpResponseRedirect(admin_url)
