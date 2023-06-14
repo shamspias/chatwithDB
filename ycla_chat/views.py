@@ -74,7 +74,8 @@ class ChatView(APIView):
 
                 if model_from == "open_ai":
                     task = get_bot_response.apply_async(
-                        args=[message_list, system_prompt, language, name_space, model_from, "", "", "", "",
+                        args=[message_list, system_prompt, language, name_space, model_from, model_name, api_key, "",
+                              "",
                               vector_api_key, environment_name, vector_index_name, reference_limit, temperature])
                     bot_message = task.get()
                 else:
