@@ -28,9 +28,11 @@ class ChatView(APIView):
                 system_prompt_obj = SystemInfo.objects.first()
                 system_prompt = system_prompt_obj.prompt
                 history = system_prompt_obj.history
+                reference_limit = system_prompt_obj.reference_limit
             except Exception as e:
                 system_prompt = "You are YCLA AI you can do anything you want."
                 history = 3
+                reference_limit = 2
                 print("Error:" + str(e))
 
             # Get the last given conversations
@@ -68,24 +70,28 @@ class ChatView(APIView):
                 model_name = ai_model_obj.model_name
                 model_endpoint = ai_model_obj.model_endpoint
                 model_api_version = ai_model_obj.model_api_version
+                temperature = ai_model_obj.temperature
 
-                if model_from == "openai":
+                if model_from == "open_ai":
                     task = get_bot_response.apply_async(
                         args=[message_list, system_prompt, language, name_space, model_from, "", "", "", "",
-                              vector_api_key, environment_name, vector_index_name])
+                              vector_api_key, environment_name, vector_index_name, reference_limit, temperature])
                     bot_message = task.get()
                 else:
                     task = get_bot_response.apply_async(
                         args=[message_list, system_prompt, language, name_space, model_from, model_name, api_key,
-                              model_endpoint, model_api_version, vector_api_key, environment_name, vector_index_name])
+                              model_endpoint, model_api_version, vector_api_key, environment_name, vector_index_name,
+                              reference_limit, temperature])
                     bot_message = task.get()
 
             except Exception as e:
                 print(str(e))
-                model_from = "openai"
+                model_from = "open_ai"
+                temperature = 1
                 # Start the get_bot_response task
                 task = get_bot_response.apply_async(
-                    args=[message_list, system_prompt, language, name_space, model_from])
+                    args=[message_list, system_prompt, language, name_space, model_from, "", "", "", "",
+                          vector_api_key, environment_name, vector_index_name, reference_limit, temperature])
                 bot_message = task.get()
 
             chat = Chat(user_id=user_id, user_message=user_message, bot_message=bot_message)
