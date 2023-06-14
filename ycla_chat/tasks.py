@@ -32,7 +32,8 @@ def get_pinecone_index(index_name, name_space, embeddings, vector_api_key, envir
 
 @shared_task
 def get_bot_response(message_list, system_prompt, language, name_space, model_from, model_name, api_key, model_endpoint,
-                     model_api_version, vector_api_key, environment_name, vector_index_name, reference_limit, temperature):
+                     model_api_version, vector_api_key, environment_name, vector_index_name, reference_limit,
+                     temperature):
     # if model_from == "azure":
     #     embeddings = OpenAIEmbeddings(openai_api_type=model_from, openai_api_base=model_endpoint,
     #                                   openai_api_key=api_key, openai_api_version=model_api_version, deployment="")
@@ -80,6 +81,7 @@ def get_bot_response(message_list, system_prompt, language, name_space, model_fr
         gpt3_stream_response = openai.ChatCompletion.create(
             engine=model_name,
             stream=True,
+            temperature=temperature,
             messages=[
                          {"role": "system",
                           "content": f"{system_prompt} {language} only."},
@@ -90,6 +92,7 @@ def get_bot_response(message_list, system_prompt, language, name_space, model_fr
         gpt3_stream_response = openai.ChatCompletion.create(
             model=model_name,
             stream=True,
+            temperature=temperature,
             messages=[
                          {"role": "system",
                           "content": f"{system_prompt} {language} only."},
