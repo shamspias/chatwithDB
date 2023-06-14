@@ -75,8 +75,7 @@ class ChatView(APIView):
                 if model_from == "open_ai":
                     task = get_bot_response.apply_async(
                         args=[message_list, system_prompt, language, name_space, model_from, model_name, api_key, "",
-                              "",
-                              vector_api_key, environment_name, vector_index_name, reference_limit, temperature])
+                              "", vector_api_key, environment_name, vector_index_name, reference_limit, temperature])
                     bot_message = task.get()
                 else:
                     task = get_bot_response.apply_async(
@@ -86,8 +85,8 @@ class ChatView(APIView):
                     bot_message = task.get()
 
             except Exception as e:
-                print(str(e))
                 model_from = "open_ai"
+                print("Error: {}".format(str(e)))
                 temperature = 1
                 # Start the get_bot_response task
                 task = get_bot_response.apply_async(
