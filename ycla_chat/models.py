@@ -29,6 +29,7 @@ class Chat(models.Model):
 class SystemInfo(models.Model):
     prompt = models.TextField(null=True, blank=True)
     history = models.IntegerField(default=3)
+    reference_limit = models.PositiveIntegerField(default=2)
 
     class Meta:
         verbose_name_plural = "System Info"
@@ -44,6 +45,7 @@ class ModelInfo(models.Model):
     model_from = models.CharField(max_length=100, null=True, blank=True)
     api_key = models.TextField(null=True, blank=True)
     model_name = models.CharField(max_length=255, null=True, blank=True)
+    temperature = models.PositiveIntegerField(default=1)
     model_endpoint = models.CharField(max_length=255, null=True, blank=True)
     model_api_version = models.CharField(max_length=255, null=True, blank=True)
 
