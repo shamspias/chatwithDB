@@ -43,8 +43,8 @@ class TrainView(View):
 
         try:
             vector_index_obj = VectorStorage.objects.first()
-            pinecone_api_key = vector_index_obj.pinecone_api_key
-            pinecone_environment = vector_index_obj.pinecone_environment
+            pinecone_api_key = vector_index_obj.api_key
+            pinecone_environment = vector_index_obj.environment_name
         except Exception as e:
             pinecone_api_key = settings.PINECONE_API_KEY
             pinecone_environment = settings.PINECONE_ENVIRONMENT
