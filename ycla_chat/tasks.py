@@ -32,7 +32,7 @@ def get_pinecone_index(index_name, name_space, embeddings, vector_api_key, envir
 
 @shared_task
 def get_bot_response(message_list, system_prompt, language, name_space, model_from, model_name, api_key, model_endpoint,
-                     model_api_version, vector_api_key, environment_name, vector_index_name):
+                     model_api_version, vector_api_key, environment_name, vector_index_name, reference_limit, temperature):
     # if model_from == "azure":
     #     embeddings = OpenAIEmbeddings(openai_api_type=model_from, openai_api_base=model_endpoint,
     #                                   openai_api_key=api_key, openai_api_version=model_api_version, deployment="")
@@ -55,7 +55,7 @@ def get_bot_response(message_list, system_prompt, language, name_space, model_fr
 
         # Get the most similar documents to the last message
         try:
-            docs = base_index.similarity_search(query=query_text, k=2)
+            docs = base_index.similarity_search(query=query_text, k=reference_limit)
 
             updated_content = query_text + "\n\nreference:\n"
             for doc in docs:
