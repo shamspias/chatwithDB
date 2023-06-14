@@ -45,11 +45,7 @@ class ModelInfo(models.Model):
     model_from = models.CharField(max_length=100, null=True, blank=True)
     api_key = models.TextField(null=True, blank=True)
     model_name = models.CharField(max_length=255, null=True, blank=True)
-    temperature = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=1.00
-    )
+    temperature = models.FloatField(default=1.0)
     model_endpoint = models.CharField(max_length=255, null=True, blank=True)
     model_api_version = models.CharField(max_length=255, null=True, blank=True)
 
