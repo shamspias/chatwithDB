@@ -15,10 +15,6 @@ from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Pinecone
 
 OPENAI_API_KEY = settings.OPENAI_API_KEY
-PINECONE_API_KEY = settings.PINECONE_API_KEY
-PINECONE_ENVIRONMENT = settings.PINECONE_ENVIRONMENT
-PINECONE_INDEX_NAME = settings.PINECONE_INDEX_NAME
-PINECONE_NAMESPACE_NAME = settings.PINECONE_NAMESPACE_NAME
 
 embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
 
@@ -125,23 +121,23 @@ class DocumentLoaderFactory:
                 raise ValueError(f"Unsupported file type: {mime_type}")
 
 
-def build_or_update_pinecone_index(file_path, index_name, name_space):
+def build_or_update_pinecone_index(file_path, index_name, name_space, pinecone_api_key, pinecone_environment):
     """
     This function is used to build or update the Pinecone Index
     """
-    pinecone_index_manager = PineconeIndexManager(PineconeManager(PINECONE_API_KEY, PINECONE_ENVIRONMENT), index_name)
+    pinecone_index_manager = PineconeIndexManager(PineconeManager(pinecone_api_key, pinecone_environment), index_name)
     loader = DocumentLoaderFactory.get_loader(file_path)
     pages = loader.load_and_split()
 
     if pinecone_index_manager.index_exists():
         print("Updating the model")
         pinecone_index = Pinecone.from_documents(pages, embeddings, index_name=pinecone_index_manager.index_name,
-                                                 namespace=PINECONE_NAMESPACE_NAME)
+                                                 namespace=name_space)
 
     else:
         print("Training the model")
         pinecone_index_manager.create_index(dimension=1536, metric="cosine")
         pinecone_index = Pinecone.from_documents(documents=pages, embedding=embeddings,
                                                  index_name=pinecone_index_manager.index_name,
-                                                 namespace=PINECONE_NAMESPACE_NAME)
+                                                 namespace=name_space)
     return pinecone_index
