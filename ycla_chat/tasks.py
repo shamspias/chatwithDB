@@ -35,9 +35,9 @@ def get_bot_response(message_list, system_prompt, language, name_space, model_fr
                      model_api_version, vector_api_key, environment_name, vector_index_name, reference_limit,
                      temperature):
     if model_from == "azure":
-        embeddings = OpenAIEmbeddings(openai_api_type=model_from, openai_api_base=model_endpoint,
-                                      openai_api_key=settings.OPENAI_API_KEY, openai_api_version=model_api_version,
-                                      deployment="")
+        embeddings = OpenAIEmbeddings(openai_api_key=settings.OPENAI_API_KEY, openai_api_type="open_ai",
+                                      openai_api_base="https://api.openai.com/v1",
+                                      openai_api_version=None, )
     else:
         embeddings = OpenAIEmbeddings(openai_api_key=api_key, openai_api_type="open_ai",
                                       openai_api_base="https://api.openai.com/v1",
