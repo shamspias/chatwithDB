@@ -37,11 +37,11 @@ def get_bot_response(message_list, system_prompt, language, name_space, model_fr
     if model_from == "azure":
         embeddings = OpenAIEmbeddings(openai_api_key=settings.OPENAI_API_KEY, openai_api_type="open_ai",
                                       openai_api_base="https://api.openai.com/v1",
-                                      openai_api_version=None, )
+                                      openai_api_version="2022-12-01", )
     else:
         embeddings = OpenAIEmbeddings(openai_api_key=api_key, openai_api_type="open_ai",
                                       openai_api_base="https://api.openai.com/v1",
-                                      openai_api_version=None, )
+                                      openai_api_version="2022-12-01", )
 
     # Load the Pinecone index
     base_index = get_pinecone_index(vector_index_name, name_space, embeddings, vector_api_key, environment_name)
