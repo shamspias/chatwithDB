@@ -6,7 +6,7 @@ CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'redis://redis:6379')
 
 # Open AI key
 OPENAI_API_KEY = os.getenv('OPEN_AI_KEY')
-OPENAI_AI_MODEL = os.getenv('OPENAI_AI_MODEL')
+OPENAI_AI_API_VERSION = os.getenv('OPENAI_AI_API_VERSION')
 
 # Pinecone
 PINECONE_API_KEY = os.getenv('PINECONE_API_KEY')
