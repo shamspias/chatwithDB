@@ -11,7 +11,7 @@ class DocumentAdmin(admin.ModelAdmin):
     Admin View for Document
     """
     list_display = ('file_name', 'index_name', 'is_trained', 'uploaded_at', 'train_button')
-    search_fields = ('file', 'index_name')
+    search_fields = ('file_name', 'index_name')
 
     def file_name(self, obj):
         return os.path.basename(obj.file.name)
