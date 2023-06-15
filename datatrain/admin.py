@@ -27,7 +27,7 @@ class WebsiteAdmin(admin.ModelAdmin):
     """
     Admin View for Websites
     """
-    list_display = ('address', 'index_name', 'is_trained', 'uploaded_at', 'train_button')
+    list_display = ('address', 'index_name', 'is_trained', 'uploaded_at')
     search_fields = ('address', 'index_name')
 
 
