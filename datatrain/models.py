@@ -17,3 +17,17 @@ class Document(models.Model):
 
     def __str__(self):
         return self.file.name
+
+
+class Websites(models.Model):
+    address = models.TextField()
+    index_name = models.CharField(max_length=255)
+    is_trained = models.BooleanField(default=False)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Website"
+        verbose_name_plural = "Websites"
+
+    def __str__(self):
+        return self.address
