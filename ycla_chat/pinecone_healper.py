@@ -10,6 +10,7 @@ from langchain.document_loaders import (
     UnstructuredWordDocumentLoader,
     PyPDFLoader,
     WebBaseLoader,
+    Docx2txtLoader,
 )
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Pinecone
@@ -116,7 +117,8 @@ class DocumentLoaderFactory:
                 return CSVLoader(file_path_or_url)
             elif mime_type in ['application/msword',
                                'application/vnd.openxmlformats-officedocument.wordprocessingml.document']:
-                return UnstructuredWordDocumentLoader(file_path_or_url)
+                return Docx2txtLoader(file_path_or_url)
+                # return UnstructuredWordDocumentLoader(file_path_or_url)
             else:
                 raise ValueError(f"Unsupported file type: {mime_type}")
 
