@@ -11,6 +11,7 @@ from langchain.document_loaders import (
     PyPDFLoader,
     WebBaseLoader,
     Docx2txtLoader,
+    TextLoader,
 )
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Pinecone
@@ -111,7 +112,9 @@ class DocumentLoaderFactory:
         else:
             mime_type, _ = mimetypes.guess_type(file_path_or_url)
 
-            if mime_type == 'application/pdf':
+            if mime_type == 'text/plain':
+                return TextLoader(file_path_or_url)
+            elif mime_type == 'application/pdf':
                 return PyPDFLoader(file_path_or_url)
             elif mime_type == 'text/csv':
                 return CSVLoader(file_path_or_url)
