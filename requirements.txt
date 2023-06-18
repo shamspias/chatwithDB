@@ -19,3 +19,4 @@ pinecone-client
 bs4
 tiktoken
 pypdf
+docx2txt
