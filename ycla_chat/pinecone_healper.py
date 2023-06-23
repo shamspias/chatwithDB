@@ -1,10 +1,14 @@
 import os
 import pinecone
 import requests
-from bs4 import BeautifulSoup
-from urllib.parse import urljoin, urlsplit
 import mimetypes
+
+from bs4 import BeautifulSoup
+from urllib.parse import urljoin, urlsplit, urlparse
+
 from django.conf import settings
+from django.core.validators import URLValidator
+
 from langchain.document_loaders import (
     CSVLoader,
     UnstructuredWordDocumentLoader,
@@ -13,6 +17,8 @@ from langchain.document_loaders import (
     Docx2txtLoader,
     TextLoader,
 )
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Pinecone
 
@@ -72,23 +78,35 @@ class PineconeIndexManager:
 
 
 class URLHandler:
+
     @staticmethod
     def is_valid_url(url):
-        parsed_url = urlsplit(url)
-        return bool(parsed_url.scheme) and bool(parsed_url.netloc)
+        validate = URLValidator()
+        try:
+            validate(url)
+            flag = True
+        except Exception as e:
+            print("Error :" + str(url) + "Is not a validate URL please " + str(e))
+            flag = False
+
+        return flag
 
     @staticmethod
     def extract_links(url):
         response = requests.get(url)
         soup = BeautifulSoup(response.text, 'html.parser')
 
+        base_url = urlparse(url).netloc  # get base URL to match with links
         links = []
         for link in soup.find_all('a'):
             href = link.get('href')
             if href:
                 absolute_url = urljoin(url, href)
-                if URLHandler.is_valid_url(absolute_url):
-                    links.append(absolute_url)
+                # Check if the base of the absolute URL matches the base URL and if URL is valid
+                if urlparse(absolute_url).netloc == base_url and URLHandler.is_valid_url(absolute_url):
+                    # Check if the last part of URL after the last "/" contains a "."
+                    if '.' not in absolute_url.split('/')[-1]:
+                        links.append(absolute_url)
 
         return links
 
@@ -131,11 +149,18 @@ def build_or_update_pinecone_index(file_path, index_name, name_space, pinecone_a
     This function is used to build or update the Pinecone Index
     """
     pinecone_index_manager = PineconeIndexManager(PineconeManager(pinecone_api_key, pinecone_environment), index_name)
+
+    # text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size,
+    #                                                chunk_overlap=chunk_overlap)
+
     loader = DocumentLoaderFactory.get_loader(file_path)
+    # pages = loader.load_and_split(text_splitter=text_splitter)
     pages = loader.load_and_split()
 
     if pinecone_index_manager.index_exists():
         print("Updating the model")
+        for i in pages:
+            print(i)
         pinecone_index = Pinecone.from_documents(pages, embeddings, index_name=pinecone_index_manager.index_name,
                                                  namespace=name_space)
 
