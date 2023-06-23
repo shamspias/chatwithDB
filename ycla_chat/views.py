@@ -22,13 +22,20 @@ class ChatView(APIView):
             user_id = serializer.validated_data['user_id']
             user_message = serializer.validated_data['user_message']
             language = request.data.get('language', "English")
+            history = request.data.get('history', None)
+            reference_limit = request.data.get('reference_limit', None)
+            temperature = request.data.get('temperature', None)
 
             # Get system prompt from site settings
             try:
                 system_prompt_obj = SystemInfo.objects.first()
                 system_prompt = system_prompt_obj.prompt
-                history = system_prompt_obj.history
-                reference_limit = system_prompt_obj.reference_limit
+
+                if history is None:
+                    history = system_prompt_obj.history
+
+                if reference_limit is None:
+                    reference_limit = system_prompt_obj.reference_limit
             except Exception as e:
                 system_prompt = "You are YCLA AI you can do anything you want."
                 history = 3
@@ -70,7 +77,8 @@ class ChatView(APIView):
                 model_name = ai_model_obj.model_name
                 model_endpoint = ai_model_obj.model_endpoint
                 model_api_version = ai_model_obj.model_api_version
-                temperature = ai_model_obj.temperature
+                if temperature is None:
+                    temperature = ai_model_obj.temperature
 
                 if model_from == "open_ai":
                     task = get_bot_response.apply_async(
