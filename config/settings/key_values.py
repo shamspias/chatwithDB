@@ -4,7 +4,7 @@ from urllib.parse import quote
 # Celery
 
 
-USE_SQS = os.getenv('USE_SQS', False)
+USE_SQS = bool(os.getenv('USE_SQS', False))
 
 if USE_SQS:
     # AWS
