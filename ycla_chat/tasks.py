@@ -71,20 +71,40 @@ def get_bot_response(message_list, system_prompt, language, name_space, model_fr
         message_list[-1] = updated_message
 
     if model_from == "azure":
-        openai.api_type = model_from
-        openai.api_base = model_endpoint
-        openai.api_version = model_api_version
-        openai.api_key = api_key
 
-        gpt3_stream_response = openai.ChatCompletion.create(
-            engine=model_name,
-            stream=True,
-            temperature=temperature,
-            messages=[
-                         {"role": "system",
-                          "content": f"{system_prompt} {language} only."},
-                     ] + message_list
-        )
+        try:
+            openai.api_type = model_from
+            openai.api_base = model_endpoint
+            openai.api_version = model_api_version
+            openai.api_key = api_key
+            gpt3_stream_response = openai.ChatCompletion.create(
+                engine=model_name,
+                stream=True,
+                temperature=temperature,
+                messages=[
+                             {"role": "system",
+                              "content": f"{system_prompt} {language} only."},
+                         ] + message_list
+            )
+        except Exception as e:
+            print(str(e))
+
+            openai.api_type = "open_ai"
+            openai.api_base = "https://api.openai.com/v1"
+            openai.api_version = settings.OPENAI_AI_API_VERSION
+            openai.api_key = settings.OPENAI_API_KEY
+
+            gpt3_stream_response = openai.ChatCompletion.create(
+                model=model_name,
+                stream=True,
+                temperature=temperature,
+                messages=[
+                             {"role": "system",
+                              "content": f"{system_prompt} {language} only."},
+                         ] + message_list
+            )
+
+
     else:
         openai.api_key = api_key
         gpt3_stream_response = openai.ChatCompletion.create(
