@@ -95,7 +95,7 @@ def get_bot_response(message_list, system_prompt, language, name_space, model_fr
             openai.api_key = settings.OPENAI_API_KEY
 
             gpt3_stream_response = openai.ChatCompletion.create(
-                model=model_name,
+                model=settings.OPENAI_AI_MODEL_NAME,
                 stream=True,
                 temperature=temperature,
                 messages=[
