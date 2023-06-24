@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from corsheaders.defaults import default_headers
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 DJANGO_APPS = [
@@ -228,39 +229,3 @@ REST_FRAMEWORK = {
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# # AWS
-# AWS_ACCESS_KEY = quote(os.getenv('AWS_ACCESS_KEY'), safe='')
-# AWS_SECRET_KEY = quote(os.getenv('AWS_SECRET_KEY'), safe='')
-# REGION_NAME = quote(os.getenv('REGION_NAME'), safe='')
-# QUEUE_NAME = quote(os.getenv('QUEUE_NAME'), safe='')
-#
-# """
-# AWS celery configuration
-# """
-#
-# BROKER_URL = 'sqs://{access_key}:{secret_key}@'.format(
-#     access_key=AWS_ACCESS_KEY,
-#     secret_key=AWS_SECRET_KEY,
-# )
-# # RESULT_BACKEND = '{}{}/{}celery'.format(BROKER_URL, REGION_NAME, QUEUE_NAME)
-#
-# BROKER_TRANSPORT_OPTIONS = {
-#     'region': REGION_NAME,
-#     'visibility_timeout': 60,  # 1 minutes
-#     # 'polling_interval': 5,  # 5 seconds
-#     # 'queue_name_prefix': QUEUE_NAME
-# }
-#
-# # CELERY namespaced
-# CELERY_BROKER_URL = BROKER_URL
-# CELERY_BROKER_TRANSPORT_OPTIONS = BROKER_TRANSPORT_OPTIONS
-# # CELERY_TASK_DEFAULT_QUEUE = QUEUE_NAME
-#
-# CELERY_ACCEPT_CONTENT = ['application/json']
-# CELERY_TASK_SERIALIZER = 'json'
-# CELERY_RESULT_SERIALIZER = 'json'
-# CELERY_TIMEZONE = 'UTC'
-# CELERY_RESULT_BACKEND = 'django-db'  # using django-celery-results
-# CELERY_CACHE_BACKEND = 'django-cache'
-#
