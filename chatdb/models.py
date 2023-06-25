@@ -15,5 +15,9 @@ class DatabaseConfig(models.Model):
     port = models.IntegerField()
     external_info = models.TextField(blank=True)
 
+    class Meta:
+        verbose_name = "Database Configuration"
+        verbose_name_plural = "Database Configurations"
+
     def __str__(self):
         return self.name
