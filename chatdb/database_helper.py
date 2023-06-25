@@ -3,6 +3,9 @@ import mysql.connector
 
 
 class QueryView:
+    """
+    Maintain Database connection and similarity Search
+    """
 
     def get_text_fields_postgres(self, cur, table_name):
         # Specific for PostgreSQL
@@ -12,7 +15,7 @@ class QueryView:
 
     def get_text_fields_mysql(self, cur, table_name):
         # Specific for MySQL, you might need to adjust the query
-        cur.execute(f"SHOW FULL COLUMNS FROM {table_name} WHERE type LIKE '%%text%%'")
+        cur.execute(f"SHOW COLUMNS FROM {table_name} WHERE type LIKE '%%text%%'")
         return [row[0] for row in cur.fetchall()]
 
     def find_similar_data(self, db_config, message):
@@ -51,8 +54,8 @@ class QueryView:
                         f"SELECT {field} FROM {table_name} WHERE similarity({field}, %s) > 0.3 ORDER BY similarity({field}, %s) DESC",
                         (message, message))
                 elif db_config.type == 'MYSQL':
-                    # MySQL Full-Text Search
-                    cur.execute(f"SELECT {field} FROM {table_name} WHERE MATCH ({field}) AGAINST (%s)", (message,))
+                    # MySQL does not support `similarity` but you can use `LIKE` as a basic approximation
+                    cur.execute(f"SELECT {field} FROM {table_name} WHERE {field} LIKE %s", (f"%{message}%",))
 
                 # Fetch the results
                 results += cur.fetchall()
