@@ -51,6 +51,6 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 This project is licensed under the terms of the MIT license. See the [LICENSE](LICENSE.md) file for details.
 ```
 
-Please replace `https://github.com/yourusername/ChatWithDB.git` with the actual URL of your GitHub repository. Also, add actual instructions to setup and use your application, including how to add GPT-3 API key and other important details.
+Please replace `https://github.com/shamspias/ChatWithDB.git` with the actual URL of your GitHub repository. Also, add actual instructions to setup and use your application, including how to add GPT-3 API key and other important details.
 
 Note: The actual instructions might vary based on the final implementation details of your project. This is just a basic structure of README.md file, please adjust as per your project requirements.
