@@ -1,9 +1,7 @@
 from django.urls import path
-# from .views import
-
-app_name = 'chatdb'
+from .views import ChatView, CreateAPIKeyView
 
 urlpatterns = [
-    # User registration endpoint
-    # path('chat/', .as_view(), name='chat'),
+    path('chat/', ChatView.as_view(), name='chat'),
+    path('create/apikey/', CreateAPIKeyView.as_view(), name='create-apikey'),
 ]
