@@ -2,7 +2,6 @@ import os
 from pathlib import Path
 from corsheaders.defaults import default_headers
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 DJANGO_APPS = [
@@ -24,6 +23,7 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
+    'chatdb.apps.ChatdbConfig',
 
 ]
 
