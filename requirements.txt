@@ -16,3 +16,4 @@ pycurl
 pillow
 langchain
 tiktoken
+mysql-connector-python
