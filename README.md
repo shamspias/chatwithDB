@@ -1,6 +1,3 @@
-Sure, here is a sample README file for your project:
-
-```markdown
 # ChatWithDB
 
 ChatWithDB is an innovative project that transforms traditional databases into conversational partners using GPT-3 and Django. It accepts user input, finds similar database entries, and crafts human-like responses using OpenAI's GPT-3, creating a unique interaction experience with databases. The project supports multiple databases, including PostgreSQL and MySQL.
