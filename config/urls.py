@@ -18,11 +18,8 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # Data Train
-    path('data-train/', include('datatrain.urls')),
-
-    # Chatbot for ycla
-    path('api/v1/ycla/', include('ycla_chat.urls')),
+    # Chat DB
+    path('api/v1/chat/', include('chatdb.urls')),
 
     # Swagger URLs
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
