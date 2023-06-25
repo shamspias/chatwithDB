@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import DatabaseConfig
+from .models import DatabaseConfig, ApiKey
 
 
 class DatabaseConfigSerializer(serializers.ModelSerializer):
@@ -21,3 +21,9 @@ class DatabaseConfigSerializer(serializers.ModelSerializer):
         instance.external_info = validated_data.get('external_info', instance.external_info)
         instance.save()
         return instance
+
+
+class ApiKeySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ApiKey
+        fields = ('username', 'key')
