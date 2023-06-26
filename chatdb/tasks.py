@@ -6,8 +6,6 @@ from .models import DatabaseConfig
 
 from .database_helper import QueryView
 
-from langchain.embeddings import OpenAIEmbeddings
-
 logger = get_task_logger(__name__)
 
 
