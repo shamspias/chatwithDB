@@ -25,10 +25,13 @@ def get_bot_response(message_list, system_prompt, language, model_from, model_na
         database_obj = DatabaseConfig.objects.get(name__exact=database_name)
 
         docs = base_index.find_similar_data(db_config=database_obj, message=query_text)
+        print("_____________________________")
+        print(docs)
+        print("_____________________________")
 
         updated_content = query_text + "\n\nreference:\n"
-        for doc in docs:
-            updated_content += doc.page_content + "\n\n"
+
+        updated_content += docs + "\n\n"
     except Exception as e:
         logger.error(f"Failed to get similar documents: {e}")
         updated_content = query_text
