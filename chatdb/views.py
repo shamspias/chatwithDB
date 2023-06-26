@@ -26,7 +26,7 @@ class ChatView(APIView):
         conversation_history = request.data.get('history_data', [])
         user_message = request.data.get('message', None)
         language = request.data.get('language', None)
-        user_namespace = request.data.get('user_namespace', None)
+        database_name = request.data.get('database_name', None)
 
         # Get system prompt from site settings
         try:
@@ -58,29 +58,6 @@ class ChatView(APIView):
         message_list.append({"role": "user", "content": user_message})
 
         try:
-            vector_storage_obj = VectorStorage.objects.first()
-            provider_name = vector_storage_obj.provider_name
-            vector_api_key = vector_storage_obj.api_key
-            environment_name = vector_storage_obj.environment_name
-            vector_index_name = vector_storage_obj.index_name
-            if user_namespace is None:
-                name_space = vector_storage_obj.name_space
-            else:
-                name_space = user_namespace
-
-        except Exception as e:
-            provider_name = "Pinecone"
-            vector_api_key = settings.PINECONE_API_KEY
-            environment_name = settings.PINECONE_ENVIRONMENT
-            vector_index_name = settings.PINECONE_INDEX_NAME
-
-            if user_namespace is None:
-                name_space = settings.PINECONE_NAMESPACE_NAME
-            else:
-                name_space = user_namespace
-            print(str(e))
-
-        try:
             ai_model_obj = ModelInfo.objects.first()
             model_from = ai_model_obj.model_from
             api_key = ai_model_obj.api_key
@@ -91,14 +68,13 @@ class ChatView(APIView):
 
             if model_from == "open_ai":
                 task = get_bot_response.apply_async(
-                    args=[message_list, system_prompt, language, name_space, model_from, model_name, api_key, "",
-                          "", vector_api_key, environment_name, vector_index_name, reference_limit, temperature])
+                    args=[message_list, system_prompt, language, model_from, model_name, api_key, "",
+                          "", temperature, database_name])
                 bot_message = task.get()
             else:
                 task = get_bot_response.apply_async(
-                    args=[message_list, system_prompt, language, name_space, model_from, model_name, api_key,
-                          model_endpoint, model_api_version, vector_api_key, environment_name, vector_index_name,
-                          reference_limit, temperature])
+                    args=[message_list, system_prompt, language, model_from, model_name, api_key,
+                          model_endpoint, model_api_version, temperature, database_name])
                 bot_message = task.get()
 
         except Exception as e:
@@ -107,8 +83,8 @@ class ChatView(APIView):
             temperature = 1
             # Start the get_bot_response task
             task = get_bot_response.apply_async(
-                args=[message_list, system_prompt, language, name_space, model_from, "", "", "", "",
-                      vector_api_key, environment_name, vector_index_name, reference_limit, temperature])
+                args=[message_list, system_prompt, language, model_from, "", "", "", "", reference_limit, temperature,
+                      database_name])
             bot_message = task.get()
 
         return Response({'message': bot_message}, status=status.HTTP_200_OK)
