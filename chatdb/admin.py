@@ -16,9 +16,9 @@ class DatabaseConfigAdmin(admin.ModelAdmin):
         return super(DatabaseConfigAdmin, self).get_list_display(request)
 
     # Hide password in detail view
-    def get_exclude(self, request, obj=None):
-        self.exclude = ('password',)
-        return super(DatabaseConfigAdmin, self).get_exclude(request, obj)
+    # def get_exclude(self, request, obj=None):
+    #     self.exclude = ('password',)
+    #     return super(DatabaseConfigAdmin, self).get_exclude(request, obj)
 
 
 class ChatAdmin(admin.ModelAdmin):
