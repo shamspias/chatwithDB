@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import DatabaseConfig
+from .models import DatabaseConfig, Chat, SystemInfo, ApiKey, ModelInfo
 
 
 class DatabaseConfigAdmin(admin.ModelAdmin):
@@ -21,4 +21,18 @@ class DatabaseConfigAdmin(admin.ModelAdmin):
         return super(DatabaseConfigAdmin, self).get_exclude(request, obj)
 
 
+class ChatAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user_id', 'user_message', 'bot_message', 'timestamp')
+    search_fields = ('user_id',)
+
+
+@admin.register(ApiKey)
+class ApiKeyAdmin(admin.ModelAdmin):
+    list_display = ('username', 'key',)
+    search_fields = ('username', 'key',)
+
+
 admin.site.register(DatabaseConfig, DatabaseConfigAdmin)
+admin.site.register(Chat, ChatAdmin)
+admin.site.register(SystemInfo)
+admin.site.register(ModelInfo)
