@@ -1,5 +1,6 @@
 import psycopg2
 import mysql.connector
+from pymongo import MongoClient
 
 
 class QueryView:
@@ -37,6 +38,25 @@ class QueryView:
             get_text_fields = QueryView.get_text_fields_mysql
             # MySQL specific SQL command to list tables
             cur.execute("""SHOW TABLES""")
+
+        elif db_config.type == 'MONGODB':
+            client = MongoClient(host=db_config.host, port=db_config.port)
+            db = client[db_config.name]
+
+            results = []
+
+            # Iterate over all collections
+            for collection_name in db.list_collection_names():
+                collection = db[collection_name]
+
+                # MongoDB text search
+                for doc in collection.find({"$text": {"$search": message}}):
+                    # Append the entire document to the results
+                    # Modify this if you only want to append specific fields
+                    results.append(doc)
+
+            return results
+
         else:
             # Add other database types if needed
             return []
