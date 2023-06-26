@@ -55,8 +55,8 @@ class QueryView:
 
                     # PostgreSQL specific similarity search
                     cur.execute(
-                        f"SELECT {field} FROM {table_name} WHERE similarity({field}, %s) > 0.3 ORDER BY similarity({field}, %s) DESC",
-                        (message, message))
+                        f"SELECT {field} FROM {table_name} WHERE {field} ILIKE %s",
+                        (f"%{message}%",))
                 elif db_config.type == 'MYSQL':
                     # MySQL does not support `similarity` but you can use `LIKE` as a basic approximation
                     cur.execute(f"SELECT {field} FROM {table_name} WHERE {field} LIKE %s", (f"%{message}%",))
