@@ -18,6 +18,19 @@ git clone https://github.com/shamspias/ChatWithDB.git
 cd ChatWithDB
 ```
 
+Create and active virtual environment
+
+#### Linux & MAC
+```shell
+python3 -m venv venv
+. venv/bin/activate
+```
+#### Windows
+```shell
+python -m venv venv
+. venv/Scripts/activate
+```
+
 Install the required Python packages:
 
 ```sh
