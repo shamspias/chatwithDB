@@ -6,6 +6,7 @@ class DatabaseConfig(models.Model):
     DB_TYPES = [
         ('POSTGRESQL', 'PostgreSQL'),
         ('MYSQL', 'MySQL'),
+        ('MONGODB', 'MongoDB'),
         # more as necessary
     ]
     type = models.CharField(max_length=20, choices=DB_TYPES)
