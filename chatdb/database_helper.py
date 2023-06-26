@@ -53,10 +53,6 @@ class QueryView:
             for field in text_fields:
                 if db_config.type == 'POSTGRESQL':
 
-                    # CREATE EXTENSION if not exists for similarity search
-                    cur.execute(
-                        f"CREATE EXTENSION IF NOT EXISTS pg_trgm"
-                    )
                     # PostgreSQL specific similarity search
                     cur.execute(
                         f"SELECT {field} FROM {table_name} WHERE similarity({field}, %s) > 0.3 ORDER BY similarity({field}, %s) DESC",
