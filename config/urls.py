@@ -19,7 +19,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Chat DB
-    path('api/v1/chat/', include('chatdb.urls')),
+    path('api/v1/', include('chatdb.urls')),
 
     # Swagger URLs
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
