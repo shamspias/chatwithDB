@@ -49,8 +49,8 @@ class QueryView:
             for collection_name in db.list_collection_names():
                 collection = db[collection_name]
 
-                # MongoDB text search
-                for doc in collection.find({"$text": {"$search": message}}):
+                # MongoDB regex search
+                for doc in collection.find({"$or": [{"$regex": message} for _ in doc]}):
                     # Append the entire document to the results
                     # Modify this if you only want to append specific fields
                     results.append(doc)
