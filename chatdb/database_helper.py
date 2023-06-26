@@ -57,9 +57,6 @@ class QueryView:
                     cur.execute(
                         f"CREATE EXTENSION IF NOT EXISTS pg_trgm"
                     )
-                    cur.execute(
-                        f"SET word_similarity_threshold = 0.3"
-                    )
                     # PostgreSQL specific similarity search
                     cur.execute(
                         f"SELECT {field} FROM {table_name} WHERE similarity({field}, %s) > 0.3 ORDER BY similarity({field}, %s) DESC",
